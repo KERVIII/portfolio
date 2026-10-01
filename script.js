@@ -1,6 +1,6 @@
 const $=(s,a=document)=>[...a.querySelectorAll(s)],R=matchMedia('(prefers-reduced-motion:reduce)').matches;
 // reveals
-const io=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target)}}),{threshold:.15,rootMargin:'0px 0px -6% 0px'});
+const io=new IntersectionObserver(es=>es.forEach(e=>e.target.classList.toggle('in',e.isIntersecting)),{threshold:.15,rootMargin:'0px 0px -6% 0px'});
 $('.rv').forEach(el=>io.observe(el));
 // typing
 const roles=['Android developer','WebUI developer','frontend tinkerer'],ty=$('#ty')[0];let ri=0,ci=0,del=0;
@@ -11,6 +11,10 @@ setTimeout(tick,d)})();
 // hero reveal: release the clip-path layer once finished
 const pic=$('.pic')[0];
 pic.addEventListener('animationend',e=>{if(e.animationName==='reveal'){pic.style.animation='none';pic.style.clipPath='none'}});
+// hero portrait replays: re-arm on leave, restart on enter (acts only on visibility changes)
+let picIn=false;
+const armPic=()=>{pic.style.animation='none';pic.style.clipPath=''};
+if(!R)new IntersectionObserver(es=>es.forEach(e=>{const v=e.isIntersecting;if(v===picIn)return;picIn=v;armPic();if(v){void pic.offsetWidth;pic.style.animation=''}}),{threshold:0}).observe(pic);
 // scroll: progress bar + parallax (measurements cached, one write per frame)
 const bar=$('#bar')[0],links=$('nav a');let tk=0,max=1;
 const measure=()=>{max=Math.max(1,document.documentElement.scrollHeight-innerHeight)};

@@ -28,7 +28,7 @@ nav a:hover,nav a.on{color:#fff;background:rgba(224,65,60,.14)}
 .sec{padding:clamp(72px,12vw,130px) 20px 0;max-width:1080px;margin:auto}
 h2.t{font-size:clamp(1.7rem,5vw,2.4rem);font-weight:600;text-align:center;line-height:1.2;margin-bottom:clamp(32px,6vw,56px)}
 h2.t:after{content:"";display:block;height:2px;width:64px;margin:12px auto 0;background:var(--r);box-shadow:0 0 14px var(--r);transform:scaleX(0);transition:transform 1.1s .35s var(--e)}
-h2.t.in:after{transform:scaleX(1)}
+h2.t.in:after,.ct.in h2.t:after{transform:scaleX(1)}
 .rv{opacity:0;transform:translate3d(0,40px,0) scale(.96);filter:blur(5px);transition:opacity .9s var(--e),transform 1s var(--e),filter .9s var(--e);transition-delay:calc(var(--i,0)*90ms)}
 .rv.in{opacity:1;transform:none;filter:none}
 /* hero */
