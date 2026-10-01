@@ -27,13 +27,12 @@ nav a{padding:8px 14px;border-radius:12px;font-size:.88rem;font-weight:500;color
 nav a:hover,nav a.on{color:#fff;background:rgba(224,65,60,.14)}
 .burger{width:46px;height:46px;border-radius:14px;border:1px solid var(--l);background:var(--g);color:#fff;font-size:1.3rem;display:grid;place-items:center;cursor:pointer;transition:transform .45s var(--b),border-color .4s}
 .burger:active{transform:scale(.88)}.burger[aria-expanded=true]{border-color:var(--r);transform:rotate(90deg)}
-.menu{position:fixed;z-index:45;inset:0;background:rgba(6,2,2,.97);will-change:clip-path;display:flex;flex-direction:column;justify-content:center;align-items:center;gap:6px;clip-path:circle(0 at calc(100% - 45px) 55px);transition:clip-path .9s var(--e),opacity .2s ease;visibility:visible;opacity:0;pointer-events:none}
-.menu.open{clip-path:circle(150% at calc(100% - 45px) 55px);opacity:1;pointer-events:auto}
+.menu{position:fixed;z-index:45;inset:0;background:rgba(6,2,2,.97);will-change:clip-path;display:flex;flex-direction:column;justify-content:center;align-items:center;gap:6px;clip-path:circle(0 at calc(100% - 45px) 55px);transition:clip-path .9s var(--e);visibility:hidden}
+.menu.open{clip-path:circle(150% at calc(100% - 45px) 55px);visibility:visible}
 .menu a{font-size:1.9rem;font-weight:600;padding:8px 20px;opacity:0;transform:translateY(24px) scale(.94);transition:opacity .7s var(--e),transform .8s var(--e),color .3s}
 .menu.open a{opacity:1;transform:none;transition-delay:calc(var(--i)*70ms + 250ms)}
 .menu a:hover{color:var(--r)}
 @media(min-width:860px){nav.d{display:flex}.burger,.menu{display:none}}
-@media(hover:none),(pointer:coarse){.card:hover{transform:none;box-shadow:none}.card:hover:before,.card:hover:after{opacity:0}.pic:hover img{transform:none}}
 /* layout */
 .sec{padding:clamp(72px,12vw,130px) 20px 0;max-width:1080px;margin:auto}
 h2.t{font-size:clamp(1.7rem,5vw,2.4rem);font-weight:600;text-align:center;line-height:1.2;margin-bottom:clamp(32px,6vw,56px)}
@@ -113,7 +112,6 @@ footer{margin-top:90px;padding:22px 20px calc(22px + env(safe-area-inset-bottom,
 @keyframes fl{from{transform:scale(.3);opacity:1}to{transform:scale(1.6);opacity:0}}
 .pic{will-change:transform}.flash{will-change:transform,opacity}
 @media(prefers-reduced-motion:reduce){*,*:before,*:after{animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important;transition-delay:0s!important;scroll-behavior:auto!important}.rv{filter:none;transform:none}.pic{clip-path:none}.pic:after{animation:none}body:before{animation:none}}
-
 </style>
 </head><body>
 <svg width="0" height="0" style="position:absolute" aria-hidden="true">
@@ -187,7 +185,7 @@ footer{margin-top:90px;padding:22px 20px calc(22px + env(safe-area-inset-bottom,
 <footer>© 2026 KERVIII. All rights reserved.</footer>
 
 <script>
-const $=(s,a=document)=>[...a.querySelectorAll(s)],R=matchMedia('(prefers-reduced-motion:reduce)').matches,F=matchMedia('(pointer:fine)').matches;
+const $=(s,a=document)=>[...a.querySelectorAll(s)],R=matchMedia('(prefers-reduced-motion:reduce)').matches;
 // reveals
 const io=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target)}}),{threshold:.15,rootMargin:'0px 0px -6% 0px'});
 $('.rv').forEach(el=>io.observe(el));
@@ -211,7 +209,7 @@ frame();
 const spy=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting)links.forEach(a=>a.classList.toggle('on',a.hash==='#'+e.target.id))}),{rootMargin:'-45% 0px -50% 0px'});
 $('section[id],main').forEach(s=>spy.observe(s));
 // cursor glow (rAF-throttled)
-if(F&&!R){$('.card').forEach(c=>{let f=0,x=0,y=0;c.addEventListener('pointermove',e=>{x=e.clientX;y=e.clientY;if(f)return;f=requestAnimationFrame(()=>{f=0;const r=c.getBoundingClientRect();c.style.setProperty('--mx',x-r.left+'px');c.style.setProperty('--my',y-r.top+'px')})},{passive:true})})}
+$('.card').forEach(c=>{let f=0,x=0,y=0;c.addEventListener('pointermove',e=>{x=e.clientX;y=e.clientY;if(f)return;f=requestAnimationFrame(()=>{f=0;const r=c.getBoundingClientRect();c.style.setProperty('--mx',x-r.left+'px');c.style.setProperty('--my',y-r.top+'px')})},{passive:true})});
 // menu
 const bg=$('.burger')[0],mn=$('#menu')[0];
 const setMenu=o=>{mn.classList.toggle('open',o);bg.setAttribute('aria-expanded',o);document.body.style.overflow=o?'hidden':''};
@@ -219,15 +217,14 @@ bg.onclick=()=>setMenu(!mn.classList.contains('open'));
 $('a',mn).forEach(a=>a.onclick=()=>setMenu(false));
 addEventListener('keydown',e=>e.key==='Escape'&&setMenu(false));
 // energy + circle interaction
-function zap(x,y){if(R)return;const fr=document.createDocumentFragment(),nodes=[];const f=document.createElement('i');f.className='flash';f.style.left=x+'px';f.style.top=y+'px';fr.appendChild(f);nodes.push(f);
-for(let i=0;i<7;i++){const s=document.createElement('i');s.className='bolt';s.style.cssText=`left:${x}px;top:${y}px;--rot:${i*51+Math.random()*30}deg;--len:${34+Math.random()*60}px;animation-delay:${Math.random()*90}ms`;fr.appendChild(s);nodes.push(s)}
-document.body.appendChild(fr);setTimeout(()=>nodes.forEach(n=>n.remove()),650)}
+function zap(x,y){if(R)return;const fr=document.createDocumentFragment(),f=document.createElement('i');f.className='flash';f.style.left=x+'px';f.style.top=y+'px';fr.appendChild(f);
+for(let i=0;i<7;i++){const s=document.createElement('i');s.className='bolt';s.style.cssText=`left:${x}px;top:${y}px;--rot:${i*51+Math.random()*30}deg;--len:${34+Math.random()*60}px;animation-delay:${Math.random()*90}ms`;fr.appendChild(s)}
+document.body.appendChild(fr);setTimeout(()=>$('.flash,.bolt').forEach(n=>n.remove()),650)}
 $('[data-fx]').forEach(el=>el.addEventListener('click',e=>{
 e.preventDefault();if(el.classList.contains('go'))return;
 const r=el.getBoundingClientRect(),orb=el.classList.contains('orb');
 el.classList.add('go');setTimeout(()=>zap(r.left+r.width/2,r.top+r.height/2),orb?280:120);
 setTimeout(()=>{window.open(el.href,'_blank','noopener')},R?0:orb?560:380);
 setTimeout(()=>el.classList.remove('go'),800)}));
-
 </script>
 </body></html>

@@ -18,13 +18,12 @@ nav a{padding:8px 14px;border-radius:12px;font-size:.88rem;font-weight:500;color
 nav a:hover,nav a.on{color:#fff;background:rgba(224,65,60,.14)}
 .burger{width:46px;height:46px;border-radius:14px;border:1px solid var(--l);background:var(--g);color:#fff;font-size:1.3rem;display:grid;place-items:center;cursor:pointer;transition:transform .45s var(--b),border-color .4s}
 .burger:active{transform:scale(.88)}.burger[aria-expanded=true]{border-color:var(--r);transform:rotate(90deg)}
-.menu{position:fixed;z-index:45;inset:0;background:rgba(6,2,2,.97);will-change:clip-path;display:flex;flex-direction:column;justify-content:center;align-items:center;gap:6px;clip-path:circle(0 at calc(100% - 45px) 55px);transition:clip-path .9s var(--e),opacity .2s ease;visibility:visible;opacity:0;pointer-events:none}
-.menu.open{clip-path:circle(150% at calc(100% - 45px) 55px);opacity:1;pointer-events:auto}
+.menu{position:fixed;z-index:45;inset:0;background:rgba(6,2,2,.97);will-change:clip-path;display:flex;flex-direction:column;justify-content:center;align-items:center;gap:6px;clip-path:circle(0 at calc(100% - 45px) 55px);transition:clip-path .9s var(--e);visibility:hidden}
+.menu.open{clip-path:circle(150% at calc(100% - 45px) 55px);visibility:visible}
 .menu a{font-size:1.9rem;font-weight:600;padding:8px 20px;opacity:0;transform:translateY(24px) scale(.94);transition:opacity .7s var(--e),transform .8s var(--e),color .3s}
 .menu.open a{opacity:1;transform:none;transition-delay:calc(var(--i)*70ms + 250ms)}
 .menu a:hover{color:var(--r)}
 @media(min-width:860px){nav.d{display:flex}.burger,.menu{display:none}}
-@media(hover:none),(pointer:coarse){.card:hover{transform:none;box-shadow:none}.card:hover:before,.card:hover:after{opacity:0}.pic:hover img{transform:none}}
 /* layout */
 .sec{padding:clamp(72px,12vw,130px) 20px 0;max-width:1080px;margin:auto}
 h2.t{font-size:clamp(1.7rem,5vw,2.4rem);font-weight:600;text-align:center;line-height:1.2;margin-bottom:clamp(32px,6vw,56px)}
