@@ -1,4 +1,4 @@
-const $=(s,a=document)=>[...a.querySelectorAll(s)],R=matchMedia('(prefers-reduced-motion:reduce)').matches;
+const $=(s,a=document)=>[...a.querySelectorAll(s)],R=matchMedia('(prefers-reduced-motion:reduce)').matches,F=matchMedia('(pointer:fine)').matches;
 // reveals
 const io=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target)}}),{threshold:.15,rootMargin:'0px 0px -6% 0px'});
 $('.rv').forEach(el=>io.observe(el));
@@ -22,7 +22,7 @@ frame();
 const spy=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting)links.forEach(a=>a.classList.toggle('on',a.hash==='#'+e.target.id))}),{rootMargin:'-45% 0px -50% 0px'});
 $('section[id],main').forEach(s=>spy.observe(s));
 // cursor glow (rAF-throttled)
-$('.card').forEach(c=>{let f=0,x=0,y=0;c.addEventListener('pointermove',e=>{x=e.clientX;y=e.clientY;if(f)return;f=requestAnimationFrame(()=>{f=0;const r=c.getBoundingClientRect();c.style.setProperty('--mx',x-r.left+'px');c.style.setProperty('--my',y-r.top+'px')})},{passive:true})});
+if(F&&!R){$('.card').forEach(c=>{let f=0,x=0,y=0;c.addEventListener('pointermove',e=>{x=e.clientX;y=e.clientY;if(f)return;f=requestAnimationFrame(()=>{f=0;const r=c.getBoundingClientRect();c.style.setProperty('--mx',x-r.left+'px');c.style.setProperty('--my',y-r.top+'px')})},{passive:true})})}
 // menu
 const bg=$('.burger')[0],mn=$('#menu')[0];
 const setMenu=o=>{mn.classList.toggle('open',o);bg.setAttribute('aria-expanded',o);document.body.style.overflow=o?'hidden':''};
@@ -30,9 +30,9 @@ bg.onclick=()=>setMenu(!mn.classList.contains('open'));
 $('a',mn).forEach(a=>a.onclick=()=>setMenu(false));
 addEventListener('keydown',e=>e.key==='Escape'&&setMenu(false));
 // energy + circle interaction
-function zap(x,y){if(R)return;const fr=document.createDocumentFragment(),f=document.createElement('i');f.className='flash';f.style.left=x+'px';f.style.top=y+'px';fr.appendChild(f);
-for(let i=0;i<7;i++){const s=document.createElement('i');s.className='bolt';s.style.cssText=`left:${x}px;top:${y}px;--rot:${i*51+Math.random()*30}deg;--len:${34+Math.random()*60}px;animation-delay:${Math.random()*90}ms`;fr.appendChild(s)}
-document.body.appendChild(fr);setTimeout(()=>$('.flash,.bolt').forEach(n=>n.remove()),650)}
+function zap(x,y){if(R)return;const fr=document.createDocumentFragment(),nodes=[];const f=document.createElement('i');f.className='flash';f.style.left=x+'px';f.style.top=y+'px';fr.appendChild(f);nodes.push(f);
+for(let i=0;i<7;i++){const s=document.createElement('i');s.className='bolt';s.style.cssText=`left:${x}px;top:${y}px;--rot:${i*51+Math.random()*30}deg;--len:${34+Math.random()*60}px;animation-delay:${Math.random()*90}ms`;fr.appendChild(s);nodes.push(s)}
+document.body.appendChild(fr);setTimeout(()=>nodes.forEach(n=>n.remove()),650)}
 $('[data-fx]').forEach(el=>el.addEventListener('click',e=>{
 e.preventDefault();if(el.classList.contains('go'))return;
 const r=el.getBoundingClientRect(),orb=el.classList.contains('orb');
