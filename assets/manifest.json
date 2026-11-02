@@ -1,0 +1,13 @@
+{
+  "name": "Kervii Personal Portfolio",
+  "short_name": "KERVIII",
+  "description": "KERVIII builds Android modules, web interfaces and practical tools.",
+  "start_url": "./index.html",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#080808",
+  "theme_color": "#080808",
+  "icons": [
+    { "src": "assets/icons/icon.svg", "sizes": "any", "type": "image/svg+xml", "purpose": "any" }
+  ]
+}

@@ -1,0 +1,6 @@
+User-agent: *
+Allow: /
+Disallow: /tools/
+Disallow: /backend/
+
+Sitemap: https://kerviii.github.io/KERVIII-PORTFOLIO/sitemap.xml
